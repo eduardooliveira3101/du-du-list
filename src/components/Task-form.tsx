@@ -67,8 +67,8 @@ export function TaskForm({ btnText, taskList, setTaskList }: TaskFormProps) {
 					/>
 				</div>
 			</div>
-			<Button type="submit" value={btnText} variant="contained">
-				Criar tarefa
+			<Button type="submit" variant="contained">
+				{btnText}
 			</Button>
 		</form>
 	);

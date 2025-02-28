@@ -2,9 +2,10 @@ import type { ITask } from "../interfaces/Task";
 
 interface TaskList {
 	taskList: ITask[];
+	handleDelete(id: number): void;
 }
 
-export function TaskList({ taskList }: TaskList) {
+export function TaskList({ taskList, handleDelete }: TaskList) {
 	return (
 		<>
 			{taskList.length > 0 ? (
@@ -19,15 +20,17 @@ export function TaskList({ taskList }: TaskList) {
 						</div>
 
 						<div className="flex flex-col gap-2 items-center justify-center gap-5">
-							{/* biome-ignore lint/style/useSelfClosingElements: <explanation> */}
-							<i className="hover:text-blue-500 transition duration-300 cursor-pointer text-[1.2em] ph ph-pencil-simple"></i>
-							{/* biome-ignore lint/style/useSelfClosingElements: <explanation> */}
-							<i className="hover:text-red-500 transition duration-300 cursor-pointer text-[1.2em] ph ph-trash"></i>
+							<i className="hover:text-blue-500 transition duration-300 cursor-pointer text-[1.2em] ph ph-pencil-simple" />
+							<i
+								onClick={() => handleDelete(task.id)}
+								onKeyDown={(e) => e.key === "Enter" && handleDelete(task.id)}
+								className="hover:text-red-500 transition duration-300 cursor-pointer text-[1.2em] ph ph-trash"
+							/>
 						</div>
 					</div>
 				))
 			) : (
-				<p>Não há tarefas cadastradas</p>
+				<p className="mt-5">Não há tarefas cadastradas</p>
 			)}
 		</>
 	);
