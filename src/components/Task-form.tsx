@@ -62,7 +62,7 @@ export function TaskForm({ btnText, taskList, setTaskList }: TaskFormProps) {
 						variant="outlined"
 						value={difficulty}
 						onChange={handleChange}
-						inputProps={{ min: 0, max: 10 }}
+						inputProps={{ min: 0, max: 3 }}
 						className="w-55"
 					/>
 				</div>
