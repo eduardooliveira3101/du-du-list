@@ -28,15 +28,13 @@ export function TaskForm({ btnText, taskList, setTaskList }: TaskFormProps) {
 
 		setTitle("");
 		setDifficulty(0);
-
-		console.log(taskList);
 	}
 
 	function handleChange(event: react.ChangeEvent<HTMLInputElement>) {
 		if (event.target.name === "title") {
 			setTitle(event.target.value);
 		} else {
-			setDifficulty(Number.parseInt(event.target.value));
+			setDifficulty(Number(event.target.value));
 		}
 	}
 
@@ -57,12 +55,15 @@ export function TaskForm({ btnText, taskList, setTaskList }: TaskFormProps) {
 			<div>
 				<div className="mb-5">
 					<TextField
-						type="text"
+						type="number"
 						name="difficulty"
 						id="difficulty"
 						label="Dificuldade da tarefa"
 						variant="outlined"
 						value={difficulty}
+						onChange={handleChange}
+						inputProps={{ min: 0, max: 10 }}
+						className="w-55"
 					/>
 				</div>
 			</div>

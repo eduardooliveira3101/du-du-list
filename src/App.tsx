@@ -23,7 +23,7 @@ function App() {
 
 				<div className="mt-10">
 					<h2 className="text-3xl font-bold">Suas tarefas</h2>
-					<TaskList />
+					<TaskList taskList={taskList} />
 				</div>
 			</main>
 			<Footer />
