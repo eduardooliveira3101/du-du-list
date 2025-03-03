@@ -5,7 +5,7 @@ interface ModalProps {
 }
 
 export function Modal({ children }: ModalProps) {
-	function closeModal(event: React.MouseEvent): void {
+	function closeModal(e: React.MouseEvent): void {
 		const modal = document.querySelector("#modal");
 
 		modal?.classList.add("hide");
