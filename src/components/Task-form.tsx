@@ -11,6 +11,7 @@ interface TaskFormProps {
 	taskList: ITask[];
 	setTaskList?: React.Dispatch<React.SetStateAction<ITask[]>>;
 	task?: ITask | null;
+	handleUpdate?(id: number, title: string, difficulty: number): void;
 }
 
 export function TaskForm({
@@ -18,6 +19,7 @@ export function TaskForm({
 	taskList,
 	setTaskList,
 	task,
+	handleUpdate,
 }: TaskFormProps) {
 	const [id, setId] = react.useState<number>(0);
 	const [title, setTitle] = react.useState<string>("");
@@ -33,15 +35,19 @@ export function TaskForm({
 
 	function addTaskHandle(event: react.FormEvent<HTMLFormElement>) {
 		event.preventDefault();
-		const id = Math.floor(Math.random() * 1000);
+		if (handleUpdate) {
+			handleUpdate(id, title, difficulty);
+		} else {
+			const id = Math.floor(Math.random() * 1000);
 
-		const newTask: ITask = { id, title, difficulty };
+			const newTask: ITask = { id, title, difficulty };
 
-		// biome-ignore lint/style/noNonNullAssertion: <explanation>
-		setTaskList!([...taskList, newTask]);
+			// biome-ignore lint/style/noNonNullAssertion: <explanation>
+			setTaskList!([...taskList, newTask]);
 
-		setTitle("");
-		setDifficulty(0);
+			setTitle("");
+			setDifficulty(0);
+		}
 	}
 
 	function handleChange(event: react.ChangeEvent<HTMLInputElement>) {

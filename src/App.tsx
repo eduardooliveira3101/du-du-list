@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import "./index.css";
 
 import { Footer } from "./components/Footer";
@@ -8,18 +9,34 @@ import { Modal } from "./components/Modal";
 
 // biome-ignore lint/style/useImportType: <explanation>
 import { ITask } from "./interfaces/Task";
-import { useState } from "react";
 
 function App() {
 	const [taskList, setTaskList] = useState<ITask[]>([]);
 	const [taskToUpdate, setTaskToUpdate] = useState<ITask | null>(null);
 
-	function deleteTak(id: number) {
-		setTaskList(
-			taskList.filter((task) => {
-				return task.id !== id;
-			}),
-		);
+	// 🚀 Carregar tarefas do LocalStorage ao iniciar o app
+	useEffect(() => {
+		const savedTasks = localStorage.getItem("tasks");
+		if (savedTasks) {
+			try {
+				setTaskList(JSON.parse(savedTasks)); // Converte para objeto
+			} catch (error) {
+				console.error("Erro ao carregar tarefas do LocalStorage:", error);
+			}
+		}
+	}, []);
+
+	// 🚀 Salvar tarefas no LocalStorage sempre que a lista for atualizada
+	useEffect(() => {
+		if (taskList.length > 0) {
+			localStorage.setItem("tasks", JSON.stringify(taskList));
+		}
+	}, [taskList]);
+
+	function deleteTask(id: number) {
+		const updatedTasks = taskList.filter((task) => task.id !== id);
+		setTaskList(updatedTasks);
+		localStorage.setItem("tasks", JSON.stringify(updatedTasks)); // Atualiza LocalStorage
 	}
 
 	function hideOrShowModal(display: boolean) {
@@ -36,6 +53,19 @@ function App() {
 		setTaskToUpdate(task);
 	}
 
+	function updateTask(id: number, title: string, difficulty: number) {
+		const updatedTask: ITask = { id, title, difficulty };
+
+		const updatedItems = taskList.map((task) => {
+			return task.id === updatedTask.id ? updatedTask : task;
+		});
+
+		setTaskList(updatedItems);
+		localStorage.setItem("tasks", JSON.stringify(updatedItems)); // Atualiza LocalStorage
+
+		hideOrShowModal(false);
+	}
+
 	return (
 		<div>
 			<Modal
@@ -45,13 +75,14 @@ function App() {
 						btnText="Editar tarefa"
 						taskList={taskList}
 						task={taskToUpdate}
+						handleUpdate={updateTask}
 					/>
 				}
 			/>
 			<Header />
 			<main className="mt-20 text-center min-h-60 mb-120">
 				<div>
-					<h2 className="text-3xl font-bold">Oque você vai fazer?</h2>
+					<h2 className="text-3xl font-bold">O que você vai fazer?</h2>
 					<TaskForm
 						taskList={taskList}
 						setTaskList={setTaskList}
@@ -63,7 +94,7 @@ function App() {
 					<h2 className="text-3xl font-bold">Suas tarefas</h2>
 					<TaskList
 						taskList={taskList}
-						handleDelete={deleteTak}
+						handleDelete={deleteTask}
 						handleEdit={editTask}
 					/>
 				</div>
