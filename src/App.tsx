@@ -21,6 +21,19 @@ function App() {
 		);
 	}
 
+	function hideOrShowModal(display: boolean) {
+		const modal = document.querySelector("#modal");
+		if (display) {
+			modal?.classList.remove("hide");
+		} else {
+			modal?.classList.add("hide");
+		}
+	}
+
+	function editTask(): void {
+		hideOrShowModal(true);
+	}
+
 	return (
 		<div>
 			<Modal
@@ -40,7 +53,11 @@ function App() {
 
 				<div className="mt-10">
 					<h2 className="text-3xl font-bold">Suas tarefas</h2>
-					<TaskList taskList={taskList} handleDelete={deleteTak} />
+					<TaskList
+						taskList={taskList}
+						handleDelete={deleteTak}
+						handleEdit={editTask}
+					/>
 				</div>
 			</main>
 			<Footer />

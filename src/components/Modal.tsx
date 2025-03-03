@@ -14,7 +14,7 @@ export function Modal({ children }: ModalProps) {
 	return (
 		<div
 			id="modal"
-			className="fixed inset-0 flex justify-center items-center z-50"
+			className="hide fixed inset-0 flex justify-center items-center z-50"
 		>
 			{/* biome-ignore lint/a11y/useKeyWithClickEvents: <explanation> */}
 			<div
