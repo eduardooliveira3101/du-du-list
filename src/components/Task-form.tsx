@@ -1,7 +1,7 @@
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 
-import react from "react";
+import react, { useEffect } from "react";
 
 // biome-ignore lint/style/useImportType: <explanation>
 import { ITask } from "../interfaces/Task";
@@ -10,12 +10,26 @@ interface TaskFormProps {
 	btnText: string;
 	taskList: ITask[];
 	setTaskList?: React.Dispatch<React.SetStateAction<ITask[]>>;
+	task?: ITask | null;
 }
 
-export function TaskForm({ btnText, taskList, setTaskList }: TaskFormProps) {
+export function TaskForm({
+	btnText,
+	taskList,
+	setTaskList,
+	task,
+}: TaskFormProps) {
 	const [id, setId] = react.useState<number>(0);
 	const [title, setTitle] = react.useState<string>("");
 	const [difficulty, setDifficulty] = react.useState<number>(0);
+
+	useEffect(() => {
+		if (task) {
+			setId(task.id);
+			setTitle(task.title);
+			setDifficulty(task.difficulty);
+		}
+	}, [task]);
 
 	function addTaskHandle(event: react.FormEvent<HTMLFormElement>) {
 		event.preventDefault();

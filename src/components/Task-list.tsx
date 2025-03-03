@@ -3,7 +3,7 @@ import type { ITask } from "../interfaces/Task";
 interface TaskList {
 	taskList: ITask[];
 	handleDelete(id: number): void;
-	handleEdit(): void;
+	handleEdit(task: ITask): void;
 }
 
 export function TaskList({ taskList, handleDelete, handleEdit }: TaskList) {
@@ -24,7 +24,7 @@ export function TaskList({ taskList, handleDelete, handleEdit }: TaskList) {
 							{/* biome-ignore lint/a11y/useKeyWithClickEvents: <explanation> */}
 							<i
 								onClick={() => {
-									handleEdit();
+									handleEdit(task);
 								}}
 								className="hover:text-blue-500 transition duration-300 cursor-pointer text-[1.2em] ph ph-pencil-simple"
 							/>

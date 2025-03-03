@@ -12,6 +12,7 @@ import { useState } from "react";
 
 function App() {
 	const [taskList, setTaskList] = useState<ITask[]>([]);
+	const [taskToUpdate, setTaskToUpdate] = useState<ITask | null>(null);
 
 	function deleteTak(id: number) {
 		setTaskList(
@@ -30,15 +31,22 @@ function App() {
 		}
 	}
 
-	function editTask(): void {
+	function editTask(task: ITask): void {
 		hideOrShowModal(true);
+		setTaskToUpdate(task);
 	}
 
 	return (
 		<div>
 			<Modal
 				// biome-ignore lint/correctness/noChildrenProp: <explanation>
-				children={<TaskForm btnText="Editar tarefa" taskList={taskList} />}
+				children={
+					<TaskForm
+						btnText="Editar tarefa"
+						taskList={taskList}
+						task={taskToUpdate}
+					/>
+				}
 			/>
 			<Header />
 			<main className="mt-20 text-center min-h-60 mb-120">
